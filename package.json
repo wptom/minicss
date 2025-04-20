@@ -1,0 +1,16 @@
+{
+  "name": "minicss",
+  "version": "0.9.0",
+  "description": "MiniCSS - A minimal CSS framework",
+  "main": "dist/css/minicss.css",
+  "scripts": {
+    "build:css": "sass src/scss/minicss.scss dist/css/minicss.css",
+    "watch:css": "sass --watch src/scss/minicss.scss dist/css/minicss.css",
+    "start": "browser-sync start --server --files 'dist/css/*.css, *.html' --index index.html",
+    "dev": "sass --watch src/scss/minicss.scss dist/css/minicss.css & browser-sync start --server --files 'dist/css/*.css, *.html' --index index.html"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.2",
+    "sass": "^1.85.0"
+  }
+} 

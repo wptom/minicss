@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniCSS Demo</title>
+    <link rel="stylesheet" href="dist/css/minicss.css">
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Set initial theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            // Range slider synchronization
+            const rangeSliders = document.querySelectorAll('.range-slider');
+            const rangeInputs = document.querySelectorAll('.range-input');
+
+            function updateSliderGradient(slider) {
+                const value = slider.value;
+                const max = slider.max;
+                const percentage = (value / max) * 100;
+                slider.style.setProperty('--slider-progress', `${percentage}%`);
+            }
+
+            // Initialize all sliders
+            rangeSliders.forEach(slider => {
+                // Find the corresponding input
+                const container = slider.closest('.range-slider-container');
+                const input = container.querySelector('.range-input');
+
+                // Set up event listeners
+                slider.addEventListener('input', (e) => {
+                    input.value = e.target.value;
+                    updateSliderGradient(e.target);
+                    updateColorPicker(e.target);
+                });
+
+                input.addEventListener('input', (e) => {
+                    const value = Math.min(255, Math.max(0, parseInt(e.target.value) || 0));
+                    slider.value = value;
+                    e.target.value = value;
+                    updateSliderGradient(slider);
+                    updateColorPicker(slider);
+                });
+
+                // Initialize gradient
+                updateSliderGradient(slider);
+            });
+
+            // Color picker functionality
+            document.querySelectorAll('.color-picker').forEach((colorPicker, index) => {
+                const colorInput = colorPicker.querySelector('input[type="color"]');
+                const preview = colorPicker.querySelector('.color-picker-preview');
+                const opacitySlider = colorPicker.querySelector('[data-opacity]');
+                const opacityInput = colorPicker.querySelector('.range-input[data-opacity]');
+
+                function updateColor() {
+                    const color = colorInput.value;
+                    const opacity = opacitySlider.value / 100;
+                    preview.style.setProperty('--color-preview', color);
+                    preview.style.backgroundColor = `rgba(${hexToRgb(color)}, ${opacity})`;
+                }
+
+                // Initialize preview
+                updateColor();
+
+                // Update on color change
+                colorInput.addEventListener('input', updateColor);
+
+                // Update on opacity change
+                opacitySlider.addEventListener('input', (e) => {
+                    opacityInput.value = e.target.value;
+                    updateColor();
+                });
+
+                opacityInput.addEventListener('input', (e) => {
+                    const value = Math.min(100, Math.max(0, parseInt(e.target.value) || 0));
+                    opacitySlider.value = value;
+                    e.target.value = value;
+                    updateColor();
+                });
+
+                // Click preview to open color picker
+                preview.addEventListener('click', () => {
+                    colorInput.click();
+                });
+            });
+
+            function hexToRgb(hex) {
+                // Remove the hash if it exists
+                hex = hex.replace('#', '');
+                
+                // Parse the hex values
+                const r = parseInt(hex.substring(0, 2), 16);
+                const g = parseInt(hex.substring(2, 4), 16);
+                const b = parseInt(hex.substring(4, 6), 16);
+                
+                return `${r}, ${g}, ${b}`;
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MiniCSS Demo</h1>
+            <button onclick="toggleTheme()">Toggle Theme</button>
+        </header>
+
+        <main>
+            <section>
+                <h2>Typography</h2>
+                <h1 class="lead-xl">Extra Large Lead Text</h1>
+                <h1 class="lead-lg">Large Lead Text</h1>
+                <h1 class="lead">Default Lead Text</h1>
+                <h1 class="lead-sm">Small Lead Text</h1>
+                <h1>Heading 1</h1>
+                <h2>Heading 2</h2>
+                <h3>Heading 3</h3>
+                <h4>Heading 4</h4>
+                <h5>Heading 5</h5>
+                <h6>Heading 6</h6>
+                <p>This is a paragraph with some <strong>bold text</strong>, <em>italic text</em>, and a <a href="#">link</a>.</p>
+                <blockquote>This is a blockquote. It can be used to highlight important information or quotes.</blockquote>
+            </section>
+
+            <section>
+                <h2>Lists</h2>
+                <h3>Unordered List</h3>
+                <ul>
+                    <li>First item</li>
+                    <li>Second item</li>
+                    <li>Third item</li>
+                </ul>
+
+                <h3>Ordered List</h3>
+                <ol>
+                    <li>First item</li>
+                    <li>Second item</li>
+                    <li>Third item</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Forms</h2>
+                <form id="demo-form" novalidate>
+                    <fieldset>
+                        <legend>Personal Information</legend>
+                        
+                        <p>
+                            <label for="name">
+                                Full Name
+                            </label>
+                            <input type="text" id="name" name="name"
+                                   aria-describedby="name-help">
+                            <small id="name-help">
+                                Enter your full name as it appears on your ID
+                            </small>
+                        </p>
+
+                        <p>
+                            <label for="email">
+                                Email Address
+                            </label>
+                            <input type="email" id="email" name="email"
+                                   aria-describedby="email-help">
+                            <small id="email-help">
+                                We'll never share your email with anyone else
+                            </small>
+                        </p>
+
+                        <p>
+                            <label for="password">
+                                Password
+                            </label>
+                            <input type="password" id="password" name="password"
+                                   aria-describedby="password-help">
+                            <small id="password-help">
+                                Must be at least 8 characters long
+                            </small>
+                        </p>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Preferences</legend>
+                        
+                        <p>
+                            <label for="bio">Bio</label>
+                            <textarea id="bio" name="bio" rows="4" 
+                                      aria-describedby="bio-help"></textarea>
+                            <small id="bio-help">
+                                Tell us a little about yourself
+                            </small>
+                        </p>
+
+                        <p>
+                            <label for="country">Country</label>
+                            <select id="country" name="country" 
+                                    aria-describedby="country-help">
+                                <option value="">Choose a country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                            </select>
+                            <small id="country-help">
+                                Select your country of residence
+                            </small>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input type="checkbox" name="newsletter" 
+                                       aria-describedby="newsletter-help">
+                                Subscribe to newsletter
+                            </label>
+                            <small id="newsletter-help">
+                                Receive updates about new features
+                            </small>
+                        </p>
+
+                        <fieldset>
+                            <legend>Preferred Contact Method</legend>
+                            <p>
+                                <label>
+                                    <input type="radio" name="contact" value="email" checked 
+                                           aria-describedby="contact-help">
+                                    Email
+                                </label>
+                                <label>
+                                    <input type="radio" name="contact" value="phone" 
+                                           aria-describedby="contact-help">
+                                    Phone
+                                </label>
+                                <small id="contact-help">
+                                    How would you like to be contacted?
+                                </small>
+                            </p>
+                        </fieldset>
+                    </fieldset>
+
+                    <p>
+                        <button type="submit">Submit</button>
+                        <button type="reset">Reset</button>
+                        <button type="button" data-variant="success">Save Draft</button>
+                        <button type="button" data-variant="warning">Preview</button>
+                        <button type="button" data-variant="danger">Delete</button>
+                    </p>
+                </form>
+            </section>
+
+            <section>
+                <h2>Tables</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Header 1</th>
+                            <th>Header 2</th>
+                            <th>Header 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                        </tr>
+                        <tr>
+                            <td>Cell 4</td>
+                            <td>Cell 5</td>
+                            <td>Cell 6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Code</h2>
+                <pre><code>function hello() {
+    console.log('Hello, world!');
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Images</h2>
+                <img src="https://placehold.co/600x400" alt="Placeholder image">
+            </section>
+
+            <section>
+                <h2>Horizontal Rule</h2>
+                <hr>
+            </section>
+
+            <h2>Slider Examples</h2>
+            <section>
+                <h3>Range Slider with Input</h3>
+                <div class="range-slider-container">
+                    <input type="range" id="rangeSlider" min="0" max="100" value="50" class="range-slider">
+                    <input type="number" id="rangeInput" min="0" max="100" value="50" class="range-input">
+                </div>
+                <div class="range-slider-container">
+                    <input type="range" id="rangeSlider2" min="0" max="100" value="50" class="range-slider">
+                    <input type="number" id="rangeInput2" min="0" max="100" value="50" class="range-input">
+                </div>
+            </section>
+
+            <section>
+                <h2>Color Picker Examples</h2>
+                <div class="color-picker-demo">
+                    <div class="color-picker">
+                        <input type="color" id="colorPicker1" value="#808080">
+                        <div class="color-picker-preview" id="colorPreview1"></div>
+                        <div class="color-picker-opacity">
+                            <div class="range-slider-container">
+                                <input type="range" class="range-slider" min="0" max="100" value="100" data-opacity="1">
+                                <input type="number" class="range-input" min="0" max="100" value="100" data-opacity="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-picker">
+                        <input type="color" id="colorPicker2" value="#C86432">
+                        <div class="color-picker-preview" id="colorPreview2"></div>
+                        <div class="color-picker-opacity">
+                            <div class="range-slider-container">
+                                <input type="range" class="range-slider" min="0" max="100" value="100" data-opacity="2">
+                                <input type="number" class="range-input" min="0" max="100" value="100" data-opacity="2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>MiniCSS Demo &copy; 2024</p>
+        </footer>
+    </div>
+</body>
+</html> 

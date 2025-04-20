@@ -1,0 +1,213 @@
+@use 'variables' as *;
+
+// Form elements
+form {
+  margin-bottom: $spacing-lg;
+}
+
+fieldset {
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius;
+}
+
+legend {
+  padding: 0 $spacing-sm;
+  font-weight: 600;
+}
+
+// Form controls
+input, select, textarea {
+  display: block;
+  width: 100%;
+  padding: $spacing-sm;
+  margin-bottom: $spacing-xs;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius;
+  color: var(--color-text);
+  transition: $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--color-primary), 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Labels
+label {
+  display: block;
+  margin-bottom: $spacing-xs;
+  font-weight: 500;
+}
+
+// Form paragraphs
+p {
+  margin-bottom: $spacing-md;
+}
+
+// Buttons
+button {
+  display: inline-block;
+  padding: $spacing-sm $spacing-md;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-base;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--color-primary), 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &[type="reset"] {
+    background-color: var(--color-secondary);
+  }
+
+  &[type="button"] {
+    &[data-variant="success"] {
+      background-color: var(--color-success);
+    }
+    &[data-variant="warning"] {
+      background-color: var(--color-warning);
+      color: var(--color-text);
+    }
+    &[data-variant="danger"] {
+      background-color: var(--color-danger);
+    }
+  }
+}
+
+// Checkboxes and radios
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: $spacing-sm;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid var(--color-border);
+  border-radius: 3px;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  transition: $transition-base;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 0.75rem;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--color-primary), 0.25);
+  }
+
+  &:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+}
+
+input[type="radio"] {
+  background-image: none;
+  border-radius: 50%;
+  background-size: 0.5rem;
+
+  &:checked {
+    background-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='white'/%3E%3C/svg%3E");
+    border-color: var(--color-primary);
+  }
+}
+
+input[type="checkbox"] {
+  background-image: none;
+  background-size: 1.0rem;
+
+  &:checked {
+    background-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' stroke='white' stroke-width='2' d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+    border-color: var(--color-primary);
+  }
+}
+
+// Select
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-sm center;
+  padding-right: $spacing-xl;
+}
+
+// Textarea
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+// Form validation
+input:invalid,
+select:invalid,
+textarea:invalid {
+  border-color: var(--color-danger);
+}
+
+input:invalid:focus,
+select:invalid:focus,
+textarea:invalid:focus {
+  box-shadow: 0 0 0 2px rgba(var(--color-danger), 0.25);
+}
+
+// Required field indicator
+label:has(input:required)::after,
+label:has(select:required)::after,
+label:has(textarea:required)::after {
+  content: "*";
+  color: var(--color-danger);
+  margin-left: $spacing-xs;
+}
+
+// Form help text
+small {
+  display: block;
+  margin-top: $spacing-xs;
+  font-size: 0.875em;
+  color: var(--color-muted);
+}
+
+// Form error message
+input:invalid + small,
+select:invalid + small,
+textarea:invalid + small {
+  color: var(--color-danger);
+}
+
+// Form success message
+input:valid + small,
+select:valid + small,
+textarea:valid + small {
+  color: var(--color-success);
+} 

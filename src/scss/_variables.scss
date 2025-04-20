@@ -1,0 +1,54 @@
+// Color schemes
+:root {
+  // Light theme
+  --color-bg: #ffffff;
+  --color-text: #333333;
+  --color-primary: #0066cc;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-muted: #6c757d;
+  --color-border: #dee2e6;
+  --color-hover: #f8f9fa;
+}
+
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-text: #f8f9fa;
+  --color-primary: #3399ff;
+  --color-secondary: #adb5bd;
+  --color-success: #48c774;
+  --color-warning: #ffd43b;
+  --color-danger: #ff6b6b;
+  --color-muted: #adb5bd;
+  --color-border: #343a40;
+  --color-hover: #2d2d2d;
+}
+
+// Typography
+$font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Spacing
+$spacing-unit: 1rem;
+$spacing-xs: $spacing-unit * 0.25;
+$spacing-sm: $spacing-unit * 0.5;
+$spacing-md: $spacing-unit;
+$spacing-lg: $spacing-unit * 1.5;
+$spacing-xl: $spacing-unit * 2;
+
+// Border radius
+$border-radius: 0.25rem;
+$border-radius-sm: 0.2rem;
+$border-radius-lg: 0.3rem;
+
+// Transitions
+$transition-base: all 0.2s ease-in-out; 
